@@ -1,13 +1,13 @@
 package main
 
 import (
-	"bytes"
 	"embed"
 	"fmt"
 	"os"
 	"text/template"
 
-	"bulma/web"
+	"bulma/web/compobody"
+	"bulma/web/compobreadcumb"
 )
 
 type Data struct {
@@ -27,20 +27,17 @@ func main() {
 		os.Exit(1)
 	}
 
-	b := web.Breadcumb{
-		Categories: []string{"A", "B"},
-		Item:       "Tea",
+	b := compobreadcumb.NewCo("Tea", []string{"A", "B"})
+	s, err := b.Render(tmpl)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
 	}
 
-	var buf bytes.Buffer
+	body := compobody.Body{}
+	body.AddMarkdown(s)
 
-	s1 := tmpl.Lookup("body.gohtml")
-	s1.ExecuteTemplate(&buf, "body", b)
-
-	data := Data{
-		Title: "XXX",
-		Body:  buf.String(),
-	}
+	data := body.Markdown()
 
 	f, errCreate := os.Create("output.html")
 	if errCreate != nil {
