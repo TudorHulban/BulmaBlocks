@@ -8,12 +8,8 @@ import (
 
 	"bulma/web/compobody"
 	"bulma/web/compobreadcumb"
+	"bulma/web/compolayout"
 )
-
-type Data struct {
-	Title string
-	Body  string
-}
 
 //go:embed templates/*.gohtml
 var f embed.FS
@@ -30,14 +26,12 @@ func main() {
 	b := compobreadcumb.NewCo("Tea", []string{"A", "B"})
 	s, err := b.Render(tmpl)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println("Could not render due to: ", err)
 		os.Exit(1)
 	}
 
 	body := compobody.Body{}
 	body.AddMarkdown(s)
-
-	data := body.Markdown()
 
 	f, errCreate := os.Create("output.html")
 	if errCreate != nil {
@@ -45,5 +39,6 @@ func main() {
 	}
 	defer f.Close()
 
-	tmpl.ExecuteTemplate(f, "layout.gohtml", data)
+	l := compolayout.NewCo("This is title", body.Markdown())
+	tmpl.ExecuteTemplate(f, "layout.gohtml", l)
 }

@@ -1,7 +1,6 @@
 package compobreadcumb
 
 import (
-	"bulma/web"
 	"bytes"
 	"errors"
 	"text/template"
@@ -9,38 +8,31 @@ import (
 
 // Breadcumb Component
 type Breadcumb struct {
-	templateName string
+	TemplateName string
 
 	Item       string
 	Categories []string
 }
 
-var _ web.IWeb = (*Breadcumb)(nil)
+// var _ web.IWeb = (*Breadcumb)(nil)
 
 func NewCo(i string, cat []string) *Breadcumb {
 	return &Breadcumb{
-		templateName: "breadcumb.gohtml",
+		TemplateName: "breadcrumb.gohtml",
 		Item:         i,
 		Categories:   cat,
 	}
 }
 
-// Template Maybe a constructor should be used.
-func (c *Breadcumb) Template() string {
-	c.templateName = "breadcumb.gohtml"
-
-	return c.templateName
-}
-
 func (c *Breadcumb) Render(t *template.Template) (string, error) {
-	tmpl := t.Lookup(c.templateName)
+	tmpl := t.Lookup(c.TemplateName)
 	if tmpl == nil {
 		return "", errors.New("lookup did not work")
 	}
 
 	var buf bytes.Buffer
 
-	err := tmpl.ExecuteTemplate(&buf, "breadcumb", *c)
+	err := tmpl.ExecuteTemplate(&buf, c.TemplateName, c)
 	if err != nil {
 		return "", err
 	}

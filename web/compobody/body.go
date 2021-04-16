@@ -1,7 +1,6 @@
 package compobody
 
 import (
-	"bulma/web"
 	"strings"
 )
 
@@ -12,13 +11,14 @@ type Body struct {
 	markdown []string
 }
 
-var _ web.IWeb = (*Body)(nil)
+// var _ web.IWeb = (*Body)(nil)
 
-// Template Maybe a constructor should be used.
-func (c *Body) Template() string {
-	c.templateName = "body.gohtml"
+func NewCo() *Body {
+	return &Body{
+		templateName: "body.gohtml",
 
-	return c.templateName
+		markdown: []string{},
+	}
 }
 
 func (c *Body) AddMarkdown(m string) {
