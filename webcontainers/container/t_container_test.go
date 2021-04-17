@@ -1,7 +1,6 @@
 package container
 
 import (
-	"embed"
 	"testing"
 	"text/template"
 
@@ -10,13 +9,10 @@ import (
 
 const token = "xxx"
 
-//go:embed container.gohtml
-var f embed.FS
-
 func TestContainer(t *testing.T) {
 	tmpl := template.New("views")
 
-	tmpl, err := tmpl.ParseFS(f, "container.gohtml")
+	tmpl, err := tmpl.ParseFiles("../../templates/container.gohtml")
 	require.Nil(t, err)
 
 	c := NewCo()
