@@ -39,6 +39,8 @@ func (c *Body) Inject(t *template.Template, decorator webcontainers.IWebContaine
 		return err
 	}
 
+	//fmt.Println("body:", body)
+
 	c.markdown = []string{body}
 
 	return nil
