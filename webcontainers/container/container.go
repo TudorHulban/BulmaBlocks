@@ -1,7 +1,7 @@
 package container
 
 import (
-	"bulma/web"
+	"bulma/webcontainers"
 	"bytes"
 	"errors"
 	"text/template"
@@ -11,10 +11,10 @@ import (
 type Container struct {
 	templateName string
 
-	markdown string
+	Markdown string
 }
 
-var _ web.IWeb = (*Container)(nil)
+var _ webcontainers.IWebContainer = (*Container)(nil)
 
 func NewCo() *Container {
 	return &Container{
@@ -22,8 +22,8 @@ func NewCo() *Container {
 	}
 }
 
-func (c *Container) SetMarkdonw(markdown string) {
-	c.markdown = markdown
+func (c *Container) SetMarkdown(markdown string) {
+	c.Markdown = markdown
 }
 
 func (c *Container) Render(t *template.Template) (string, error) {

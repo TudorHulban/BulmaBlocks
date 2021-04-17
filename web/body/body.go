@@ -2,7 +2,7 @@ package compobody
 
 import (
 	"bulma/web"
-	"bulma/web/container"
+	"bulma/webcontainers"
 	"strings"
 	"text/template"
 )
@@ -22,7 +22,7 @@ func NewCo() *Body {
 	}
 }
 
-func (c *Body) Inject(t *template.Template, decorator *container.Container, blocks ...web.IWeb) error {
+func (c *Body) Inject(t *template.Template, decorator webcontainers.IWebContainer, blocks ...web.IWeb) error {
 	for _, block := range blocks {
 		markdown, err := block.Render(t)
 		if err != nil {
@@ -32,7 +32,7 @@ func (c *Body) Inject(t *template.Template, decorator *container.Container, bloc
 		c.markdown = append(c.markdown, markdown)
 	}
 
-	decorator.SetMarkdonw(c.Markdown())
+	decorator.SetMarkdown(c.Markdown())
 
 	body, err := decorator.Render(t)
 	if err != nil {
