@@ -1,7 +1,9 @@
 package compobody
 
 import (
+	"bulma/web"
 	"strings"
+	"text/template"
 )
 
 // Body Component
@@ -23,6 +25,19 @@ func NewCo() *Body {
 
 func (c *Body) AddMarkdown(m string) {
 	c.markdown = append(c.markdown, m)
+}
+
+func (c *Body) Inject(t *template.Template, blocks ...web.IWeb) error {
+	for _, block := range blocks {
+		markdown, err := block.Render(t)
+		if err != nil {
+			return err
+		}
+
+		c.markdown = append(c.markdown, markdown)
+	}
+
+	return nil
 }
 
 func (c *Body) Markdown() string {

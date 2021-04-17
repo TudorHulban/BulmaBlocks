@@ -1,6 +1,7 @@
 package compobreadcumb
 
 import (
+	"bulma/web"
 	"bytes"
 	"errors"
 	"text/template"
@@ -14,7 +15,7 @@ type Breadcumb struct {
 	Categories []string
 }
 
-// var _ web.IWeb = (*Breadcumb)(nil)
+var _ web.IWeb = (*Breadcumb)(nil)
 
 func NewCo(i string, cat []string) *Breadcumb {
 	return &Breadcumb{

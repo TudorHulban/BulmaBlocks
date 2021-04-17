@@ -9,6 +9,7 @@ import (
 	"bulma/web/compobody"
 	"bulma/web/compobreadcumb"
 	"bulma/web/compolayout"
+	"bulma/web/media_object"
 )
 
 //go:embed templates/*.gohtml
@@ -24,14 +25,23 @@ func main() {
 	}
 
 	b := compobreadcumb.NewCo("Tea", []string{"A", "B"})
-	s, err := b.Render(tmpl)
-	if err != nil {
-		fmt.Println("Could not render due to: ", err)
-		os.Exit(1)
-	}
+
+	m1 := mediaobject.NewCo(mediaobject.Content{
+		FullName: "John Smith",
+		Age:      "44",
+		Email:    "john@gmx.de",
+		Details:  "Life is beautiful.",
+	})
+
+	m2 := mediaobject.NewCo(mediaobject.Content{
+		FullName: "Maurice Ravel",
+		Age:      "74",
+		Email:    "",
+		Details:  "Music is everything.",
+	})
 
 	body := compobody.Body{}
-	body.AddMarkdown(s)
+	body.Inject(tmpl, b, m1, m2)
 
 	f, errCreate := os.Create("output.html")
 	if errCreate != nil {
