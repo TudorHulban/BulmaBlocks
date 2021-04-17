@@ -1,2 +1,2 @@
 # BulmaBlocks
-Experimenting Bulma blocks with Go
+Experimenting Bulma blocks with Go.

@@ -9,7 +9,7 @@ import (
 
 // Breadcumb Component
 type Breadcumb struct {
-	TemplateName string
+	templateName string
 
 	Item       string
 	Categories []string
@@ -19,21 +19,22 @@ var _ web.IWeb = (*Breadcumb)(nil)
 
 func NewCo(i string, cat []string) *Breadcumb {
 	return &Breadcumb{
-		TemplateName: "breadcrumb.gohtml",
-		Item:         i,
-		Categories:   cat,
+		templateName: "breadcrumb.gohtml",
+
+		Item:       i,
+		Categories: cat,
 	}
 }
 
 func (c *Breadcumb) Render(t *template.Template) (string, error) {
-	tmpl := t.Lookup(c.TemplateName)
+	tmpl := t.Lookup(c.templateName)
 	if tmpl == nil {
 		return "", errors.New("lookup did not work")
 	}
 
 	var buf bytes.Buffer
 
-	err := tmpl.ExecuteTemplate(&buf, c.TemplateName, c)
+	err := tmpl.ExecuteTemplate(&buf, c.templateName, c)
 	if err != nil {
 		return "", err
 	}
