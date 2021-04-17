@@ -2,6 +2,7 @@ package compobody
 
 import (
 	"bulma/web"
+	"bulma/web/container"
 	"strings"
 	"text/template"
 )
@@ -13,8 +14,6 @@ type Body struct {
 	markdown []string
 }
 
-// var _ web.IWeb = (*Body)(nil)
-
 func NewCo() *Body {
 	return &Body{
 		templateName: "body.gohtml",
@@ -23,11 +22,7 @@ func NewCo() *Body {
 	}
 }
 
-func (c *Body) AddMarkdown(m string) {
-	c.markdown = append(c.markdown, m)
-}
-
-func (c *Body) Inject(t *template.Template, blocks ...web.IWeb) error {
+func (c *Body) Inject(t *template.Template, decorator *container.Container, blocks ...web.IWeb) error {
 	for _, block := range blocks {
 		markdown, err := block.Render(t)
 		if err != nil {
@@ -37,9 +32,19 @@ func (c *Body) Inject(t *template.Template, blocks ...web.IWeb) error {
 		c.markdown = append(c.markdown, markdown)
 	}
 
+	decorator.SetMarkdonw(c.Markdown())
+
+	body, err := decorator.Render(t)
+	if err != nil {
+		return err
+	}
+
+	c.markdown = []string{body}
+
 	return nil
 }
 
+// Markdown Method produces accumulated markdown for body component.
 func (c *Body) Markdown() string {
 	return strings.Join(c.markdown, "")
 }

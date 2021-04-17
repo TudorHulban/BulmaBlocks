@@ -6,10 +6,11 @@ import (
 	"os"
 	"text/template"
 
-	"bulma/web/compobody"
-	"bulma/web/compobreadcumb"
-	"bulma/web/compolayout"
-	"bulma/web/media_object"
+	"bulma/web/body"
+	// "bulma/web/breadcumb"
+	"bulma/web/container"
+	"bulma/web/layout"
+	// "bulma/web/media_object"
 )
 
 //go:embed templates/*.gohtml
@@ -24,24 +25,27 @@ func main() {
 		os.Exit(1)
 	}
 
-	b := compobreadcumb.NewCo("Tea", []string{"A", "B"})
+	// b := breadcumb.NewCo("Tea", []string{"A", "B"})
 
-	m1 := mediaobject.NewCo(mediaobject.Content{
-		FullName: "John Smith",
-		Age:      "44",
-		Email:    "john@gmx.de",
-		Details:  "Life is beautiful.",
-	})
+	// m1 := mediaobject.NewCo(mediaobject.Content{
+	// 	FullName: "John Smith",
+	// 	Age:      "44",
+	// 	Email:    "john@gmx.de",
+	// 	Details:  "Life is beautiful.",
+	// })
 
-	m2 := mediaobject.NewCo(mediaobject.Content{
-		FullName: "Maurice Ravel",
-		Age:      "74",
-		Email:    "",
-		Details:  "Music is everything.",
-	})
+	// m2 := mediaobject.NewCo(mediaobject.Content{
+	// 	FullName: "Maurice Ravel",
+	// 	Age:      "74",
+	// 	Email:    "",
+	// 	Details:  "Music is everything.",
+	// })
+
+	c := container.NewCo()
 
 	body := compobody.Body{}
-	body.Inject(tmpl, b, m1, m2)
+	// body.Inject(tmpl, c, b, m1, m2)
+	body.Inject(tmpl, c)
 
 	f, errCreate := os.Create("output.html")
 	if errCreate != nil {
@@ -49,6 +53,6 @@ func main() {
 	}
 	defer f.Close()
 
-	l := compolayout.NewCo("This is title", body.Markdown())
+	l := layout.NewCo("This is title", body.Markdown())
 	tmpl.ExecuteTemplate(f, "layout.gohtml", l)
 }

@@ -1,4 +1,4 @@
-package compolayout
+package layout
 
 // Layout Component
 type Layout struct {

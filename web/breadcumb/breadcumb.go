@@ -1,4 +1,4 @@
-package compobreadcumb
+package breadcumb
 
 import (
 	"bulma/web"
