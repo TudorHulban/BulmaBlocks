@@ -1,6 +1,7 @@
 package navbar
 
 import (
+	"bulma/web"
 	"bytes"
 	"errors"
 	"text/template"
@@ -12,6 +13,7 @@ type MenuEntry struct {
 }
 
 type Content struct {
+	LogoLink          string
 	ItemsNoSubMenu    []string
 	ItemsWithSubMenus []MenuEntry
 }
@@ -25,15 +27,15 @@ type Navbar struct {
 
 var _ web.IWeb = (*Navbar)(nil)
 
-func NewCo(c Content) *Media {
-	return &Media{
-		templateName: "media.gohtml",
+func NewCo(c Content) *Navbar {
+	return &Navbar{
+		templateName: "navbar.gohtml",
 
 		Content: c,
 	}
 }
 
-func (c *Media) Render(t *template.Template) (string, error) {
+func (c *Navbar) Render(t *template.Template) (string, error) {
 	tmpl := t.Lookup(c.templateName)
 	if tmpl == nil {
 		return "", errors.New("lookup did not work")

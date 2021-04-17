@@ -18,7 +18,8 @@
       <a class="navbar-item">{{.}}
       </a>
       {{end}}
-      {{range .ItemsWithSubMenus}}  
+      
+    {{range .ItemsWithSubMenus}}  
       <div class="navbar-item has-dropdown is-hoverable">
         <a class="navbar-link">
           {{.}}
@@ -27,11 +28,11 @@
             <a class="navbar-item">
               {{.}}
             </a>
-            {{}}
+            {{end}}
           </div>
         </a>
       </div>
-      {{end}}
+    {{end}}  
     </div>
   </div>
 </nav>
