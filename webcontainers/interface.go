@@ -1,10 +1,11 @@
 package webcontainers
 
 import (
-	"text/template"
+	"bulma/web"
 )
 
 type IWebContainer interface {
 	SetMarkdown(markdown string)
-	Render(t *template.Template) (string, error)
+
+	web.IWeb
 }
