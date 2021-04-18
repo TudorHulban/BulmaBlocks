@@ -6,8 +6,7 @@
     {{end}}
     {{range .ItemsWithSubMenus}} 
     <div class="navbar-item has-dropdown is-hoverable">
-      <a class="navbar-link">
-        {{.Menu}}
+      <a class="navbar-link">{{.Menu}}</a>
         <div class="navbar-dropdown">
           {{range .Entries}} 
           <a class="navbar-item">
@@ -15,7 +14,6 @@
           </a>
           {{end}}
         </div>
-      </a>
     </div>
     {{end}}
   </div>
