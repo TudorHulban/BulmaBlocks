@@ -1,4 +1,4 @@
-package web
+package buttonsimple
 
 import (
 	"bytes"
@@ -12,7 +12,7 @@ type ButtonSimple struct {
 	Label string
 }
 
-var _ IWeb = (*ButtonSimple)(nil)
+// var _ IWeb = (*ButtonSimple)(nil)
 
 // Template Maybe a constructor should be used.
 func (c *ButtonSimple) Template() string {
@@ -21,10 +21,10 @@ func (c *ButtonSimple) Template() string {
 	return c.templateName
 }
 
-func (c *Body) Render(t *template.Template) string {
+func (c *ButtonSimple) Render(t *template.Template) string {
 	var buf bytes.Buffer
 
-	t.Lookup(c.templateName).ExecuteTemplate(&buf, "button_simple", data)
+	t.Lookup(c.templateName).ExecuteTemplate(&buf, "button_simple", c)
 
 	return buf.String()
 }

@@ -2,8 +2,6 @@ package breadcumb
 
 import (
 	"bulma/web"
-	"bytes"
-	"errors"
 	"text/template"
 )
 
@@ -27,17 +25,5 @@ func NewCo(i string, cat []string) *Breadcumb {
 }
 
 func (c *Breadcumb) Render(t *template.Template) (string, error) {
-	tmpl := t.Lookup(c.templateName)
-	if tmpl == nil {
-		return "", errors.New("lookup did not work")
-	}
-
-	var buf bytes.Buffer
-
-	err := tmpl.ExecuteTemplate(&buf, c.templateName, c)
-	if err != nil {
-		return "", err
-	}
-
-	return buf.String(), nil
+	return web.Render(t, c.templateName, c)
 }

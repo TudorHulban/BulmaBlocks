@@ -1,8 +1,7 @@
 package mediaobject
 
 import (
-	"bytes"
-	"errors"
+	"bulma/web"
 	"text/template"
 )
 
@@ -13,14 +12,14 @@ type Content struct {
 	Details  string
 }
 
-// Layout Component
+// Media Component
 type Media struct {
 	templateName string
 
 	Content
 }
 
-// var _ web.IWeb = (*Layout)(nil)
+var _ web.IWeb = (*Media)(nil)
 
 func NewCo(c Content) *Media {
 	return &Media{
@@ -31,17 +30,5 @@ func NewCo(c Content) *Media {
 }
 
 func (c *Media) Render(t *template.Template) (string, error) {
-	tmpl := t.Lookup(c.templateName)
-	if tmpl == nil {
-		return "", errors.New("lookup did not work")
-	}
-
-	var buf bytes.Buffer
-
-	err := tmpl.ExecuteTemplate(&buf, c.templateName, c)
-	if err != nil {
-		return "", err
-	}
-
-	return buf.String(), nil
+	return web.Render(t, c.templateName, c)
 }
