@@ -8,22 +8,55 @@
   </head>
   <body>
   <div class="container">
-  <nav class="breadcrumb" aria-label="breadcrumbs">
+  <nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href=>
+      <img src="https://bulma.io/images/placeholders/64x64.png" alt="Image">
+    </a>
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+      <span aria-hidden="true">
+      </span>
+      <span aria-hidden="true">
+      </span>
+      <span aria-hidden="true">
+      </span>
+    </a>
+  </div>
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">  
+      <a class="navbar-item">Menu1</a>  
+      <a class="navbar-item">Menu2</a>  
+      <a class="navbar-item">Menu3</a>
+      
+      
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          XXX
+          <div class="navbar-dropdown">
+            <a class="navbar-item">XXX-A</a>
+            <a class="navbar-item">XXX-B</a>
+            <a class="navbar-item">XXX-C</a>
+          </div>
+        </a>
+      </div>
+      
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          YYY
+          <div class="navbar-dropdown">
+            <a class="navbar-item">YYY-A</a>
+          </div>
+        </a>
+      </div>
+      
+    </div>
+  </div>
+</nav><nav class="breadcrumb" aria-label="breadcrumbs">
   <ul>
-    
-    <li>
-      <a href="#">A
-      </a>
-    </li>
-    
-    <li>
-      <a href="#">B
-      </a>
-    </li>
-    
+    <li><a href="#">A</a></li>
+    <li><a href="#">B</a></li>
     <li class="is-active">
-      <a href="#" aria-current="page">Tea
-      </a>
+      <a href="#" aria-current="page">Tea</a>
     </li>
   </ul>
 </nav>

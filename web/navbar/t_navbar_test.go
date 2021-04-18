@@ -10,18 +10,23 @@ import (
 
 const token = "xxx"
 
-func TestContainer(t *testing.T) {
+func TestNavbar(t *testing.T) {
 	tmpl := template.New("views")
 
-	tmpl, err := tmpl.ParseFiles("../../templates/navbar.gohtml")
+	tmpl, err := tmpl.ParseFiles("navbar.gohtml")
 	require.Nil(t, err)
 
 	c := NewCo(Content{
-		ItemsNoSubMenu:    []string{"Menu1", "Menu2", token},
-		ItemsWithSubMenus: []MenuEntry{},
+		ItemsNoSubMenu: []string{"Menu1", "Menu2", token},
+		ItemsWithSubMenus: []MenuEntry{MenuEntry{
+			Menu:    "XXX",
+			Entries: []string{"XXX-A", "XXX-B", "XXX-C"},
+		}},
 	})
 
 	s, errRender := c.Render(tmpl)
-	require.Nil(t, errRender)
-	require.Contains(t, s, token)
+	require.Nil(t, errRender, "Did not render correctly.")
+	require.Contains(t, s, token, "Does not contain token.")
+
+	fmt.Println(s)
 }

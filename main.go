@@ -10,6 +10,7 @@ import (
 	"bulma/web/breadcumb"
 	"bulma/web/layout"
 	"bulma/web/media_object"
+	"bulma/web/navbar"
 	"bulma/webcontainers/container"
 )
 
@@ -24,6 +25,18 @@ func main() {
 		fmt.Println(err)
 		os.Exit(1)
 	}
+
+	nav := navbar.NewCo(navbar.Content{
+		ItemsNoSubMenu: []string{"Menu1", "Menu2", "Menu3"},
+		ItemsWithSubMenus: []navbar.MenuEntry{
+			navbar.MenuEntry{Menu: "XXX",
+				Entries: []string{"XXX-A", "XXX-B", "XXX-C"},
+			},
+			navbar.MenuEntry{Menu: "YYY",
+				Entries: []string{"YYY-A"},
+			},
+		},
+	})
 
 	b := breadcumb.NewCo("Tea", []string{"A", "B"})
 
@@ -44,7 +57,11 @@ func main() {
 	c := container.NewCo()
 
 	body := compobody.Body{}
-	body.Inject(tmpl, c, b, m1, m2)
+	errInject := body.Inject(tmpl, c, nav, b, m1, m2)
+	if errInject != nil {
+		fmt.Println(errInject)
+		os.Exit(2)
+	}
 
 	f, errCreate := os.Create("output.html")
 	if errCreate != nil {
@@ -53,5 +70,9 @@ func main() {
 	defer f.Close()
 
 	l := layout.NewCo("This is title", body.Markdown())
-	tmpl.ExecuteTemplate(f, "layout.gohtml", l)
+	errExe := tmpl.ExecuteTemplate(f, "layout.gohtml", l)
+	if errExe != nil {
+		fmt.Println(errExe)
+		os.Exit(3)
+	}
 }

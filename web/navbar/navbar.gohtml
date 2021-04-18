@@ -1,0 +1,22 @@
+<div id="navbarBasicExample" class="navbar-menu">
+  <div class="navbar-start">
+    {{range .ItemsNoSubMenu}}  
+    <a class="navbar-item">{{.}}
+    </a>
+    {{end}}
+    {{range .ItemsWithSubMenus}} 
+    <div class="navbar-item has-dropdown is-hoverable">
+      <a class="navbar-link">
+        {{.Menu}}
+        <div class="navbar-dropdown">
+          {{range .Entries}} 
+          <a class="navbar-item">
+            {{.}}
+          </a>
+          {{end}}
+        </div>
+      </a>
+    </div>
+    {{end}}
+  </div>
+</div> 
