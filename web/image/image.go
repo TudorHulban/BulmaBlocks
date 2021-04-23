@@ -2,6 +2,7 @@ package image
 
 import (
 	"bulma/web"
+	"errors"
 	"strings"
 	"text/template"
 )
@@ -39,9 +40,9 @@ func validateFixedSize(square int) bool {
 	return exists
 }
 
-func NewImageFixedSize(size int, c Content) *Image {
+func NewImageFixedSize(size int, c Content) (*Image, error) {
 	if !validateFixedSize(size) {
-		return nil
+		return nil, errors.New("passed size is not predefined")
 	}
 
 	res := Image{
@@ -52,7 +53,7 @@ func NewImageFixedSize(size int, c Content) *Image {
 
 	res.IsImageSize = res.isImageSizeFixed(size)
 
-	return &res
+	return &res, nil
 }
 
 func NewImageRounded(c Content) *Image {

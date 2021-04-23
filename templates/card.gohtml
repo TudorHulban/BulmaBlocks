@@ -1,25 +1,24 @@
 <!-- Card Template Start-->
 <div class="card">
   <div class="card-image">
-    <figure class="image {{.IsImageSize}}">
-       <img src="{{.ImageSrc}}" alt="{{.ImageAlt}}">
+    <figure class="image {{.CardImage.IsImageSize}}">
+      <img src="{{.CardImage.ImageSrc}}" alt="{{.CardImage.ImageAlt}}">
     </figure>
   </div>
-  
   <div class="card-content">
     <div class="media">
       <div class="media-left">
-        <figure class="image {{.IsImageSizeThumbnail}}">
-          <img src="{{.ImageSrcThumbnail}}" alt="{{.ImageAltThumbnail}}">
+        <figure class="image {{.CardThumbnailImage.IsImageSize}}">
+          <img src="{{.CardThumbnailImage.ImageSrc}}" alt="{{.CardThumbnailImage.ImageAlt}}">
         </figure>
       </div>
-      
       <div class="media-content">
-        <p class="title is-4">{{.Title}}</p>
-        <p class="subtitle is-6">{{.SubTitle}}</p>
+        <p class="title is-4">{{.Title}}
+        </p>
+        <p class="subtitle is-6">{{.SubTitle}}
+        </p>
       </div>
     </div>
-
     <div class="content">
       {{.Text}}
     </div>
