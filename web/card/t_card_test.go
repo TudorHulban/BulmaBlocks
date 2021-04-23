@@ -1,32 +1,49 @@
 package card
 
 import (
+	"bulma/web/image"
 	"fmt"
 	"testing"
-	"text/template"
-
-	"github.com/stretchr/testify/require"
+	// "text/template"
+	// "github.com/stretchr/testify/require"
 )
 
 const token = "xxx"
 
 func TestCard(t *testing.T) {
-	tmpl := template.New("views")
+	// tmpl := template.New("views")
 
-	c := NewCo(Content{
-		ImageSrc:   "https://bulma.io/images/placeholders/128x128.png",
-		ImageAlt:   token,
-		Title:      "Card Title",
-		Text:       "Lorem",
-		ButtonText: "Read More",
+	img1 := image.NewImageFixedSize(256, image.Content{
+		ImageSrc: "https://bulma.io/images/placeholders/256x256.png",
+		ImageAlt: token,
 	})
 
-	tmpl, err := tmpl.ParseFiles("../../templates/" + c.TemplateName)
-	require.Nil(t, err)
+	img2 := image.NewImageFixedSize(32, image.Content{
+		ImageSrc: "https://bulma.io/images/placeholders/32x32.png",
+		ImageAlt: token,
+	})
 
-	s, errRender := c.Render(tmpl)
-	require.Nil(t, errRender, "Did not render correctly.")
-	require.Contains(t, s, token, "Does not contain token.")
+	card := NewCo(Content{
+		CardImage: CardImage{
+			img1.Content,
+		},
+		CardThumbnailImage: CardThumbnailImage{
+			img2.Content,
+		},
 
-	fmt.Println(s)
+		Title:    "This is card title",
+		SubTitle: "Subtitle",
+		Text:     "Lorem",
+	})
+
+	fmt.Println(card)
+
+	// tmpl, err := tmpl.ParseFiles("../../templates/" + card.TemplateName)
+	// require.Nil(t, err)
+
+	// s, errRender := card.Render(tmpl)
+	// require.Nil(t, errRender, "Did not render correctly.")
+	// require.Contains(t, s, token, "Does not contain token.")
+
+	// fmt.Println(s)
 }

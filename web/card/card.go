@@ -1,17 +1,26 @@
 package card
 
 import (
-	"blocks/web"
+	"bulma/web"
+	"bulma/web/image"
 	"text/template"
 )
 
+type CardImage struct {
+	image.Content
+}
+
+type CardThumbnailImage struct {
+	image.Content
+}
+
 type Content struct {
-	ImageSrc   web.URL
-	ImageAlt   string
-	Title      string
-	Text       string
-	ButtonText string
-	ButtonURL  web.URL
+	CardImage
+	CardThumbnailImage
+
+	Title    string
+	SubTitle string
+	Text     string
 }
 
 // Card Component

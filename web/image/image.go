@@ -33,19 +33,32 @@ type Image struct {
 
 var _ web.IWeb = (*Image)(nil)
 
-func NewImage(c Content) *Image {
-	return &Image{
+func validateFixedSize(square int) bool {
+	_, exists := fixedSquareSizes[square]
+
+	return exists
+}
+
+func NewImageFixedSize(size int, c Content) *Image {
+	if !validateFixedSize(size) {
+		return nil
+	}
+
+	res := Image{
 		TemplateName: "image.gohtml",
-		CSSClass:     "img-fluid",
 
 		Content: c,
 	}
+
+	res.IsImageSize = res.isImageSizeFixed(size)
+
+	return &res
 }
 
-func NewImageThumbnail(c Content) *Image {
+func NewImageRounded(c Content) *Image {
 	return &Image{
 		TemplateName: "image.gohtml",
-		CSSClass:     "img-thumbnail",
+		CSSClass:     "is-rounded",
 
 		Content: c,
 	}
@@ -58,12 +71,16 @@ func (c *Image) Render(t *template.Template) (string, error) {
 }
 
 func (c *Image) prepareCSS() {
+	if len(c.AdditionalCSSClasses) == 0 {
+		return
+	}
+
 	c.AdditionalCSSClasses = append(c.AdditionalCSSClasses, c.CSSClass)
 
 	c.CSSClass = strings.Join(c.AdditionalCSSClasses, " ")
 }
 
-func (c *Image) IsImageSizeFixed(square int) string {
+func (c *Image) isImageSizeFixed(square int) string {
 	v, exists := fixedSquareSizes[square]
 	if !exists {
 		return ""
