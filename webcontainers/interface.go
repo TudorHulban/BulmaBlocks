@@ -5,7 +5,7 @@ import (
 )
 
 type IWebContainer interface {
-	SetMarkdown(markdown string)
+	SetContent(content []string)
 
 	web.IWeb
 }
