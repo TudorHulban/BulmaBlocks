@@ -2,7 +2,6 @@ package breadcumb
 
 import (
 	"bulma/web"
-	"text/template"
 )
 
 // Breadcumb Component
@@ -24,6 +23,10 @@ func NewCo(i string, cat []string) *Breadcumb {
 	}
 }
 
-func (c *Breadcumb) Render(t *template.Template) (string, error) {
-	return web.Render(t, c.templateName, c)
+// func (c *Breadcumb) Render(t *template.Template) (string, error) {
+// 	return web.Render(t, c.templateName, c)
+// }
+
+func (c *Breadcumb) GetTemplateName() string {
+	return c.templateName
 }

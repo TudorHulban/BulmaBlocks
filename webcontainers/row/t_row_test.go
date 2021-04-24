@@ -5,7 +5,8 @@ import (
 	"testing"
 	"text/template"
 
-	"blocks/web/card"
+	"bulma/web/card"
+	"bulma/webcontainers"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -38,7 +39,10 @@ func TestContainer(t *testing.T) {
 	tmpl, errParse := tmpl.ParseFiles("../../templates/"+c.TemplateName, "../../templates/"+c1.TemplateName)
 	require.Nil(t, errParse)
 
-	err := c.Inject(tmpl, c1, c2)
+	// err := c.Inject(tmpl, c1, c2)
+	// require.Nil(t, err, "Injecting did not work")
+
+	err := webcontainers.Inject(tmpl, c, c1, c2)
 	require.Nil(t, err, "Injecting did not work")
 
 	s, errRender := c.Render(tmpl)

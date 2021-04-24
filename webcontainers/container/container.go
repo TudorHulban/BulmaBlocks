@@ -2,9 +2,9 @@ package container
 
 import (
 	"bulma/webcontainers"
-	"bytes"
-	"errors"
-	"text/template"
+	// "bytes"
+	// "errors"
+	// "text/template"
 )
 
 // Container Component
@@ -26,18 +26,22 @@ func (c *Container) SetMarkdown(markdown string) {
 	c.Markdown = markdown
 }
 
-func (c *Container) Render(t *template.Template) (string, error) {
-	tmpl := t.Lookup(c.templateName)
-	if tmpl == nil {
-		return "", errors.New("lookup did not work")
-	}
-
-	var buf bytes.Buffer
-
-	err := tmpl.ExecuteTemplate(&buf, c.templateName, c)
-	if err != nil {
-		return "", err
-	}
-
-	return buf.String(), nil
+func (c *Container) GetTemplateName() string {
+	return c.templateName
 }
+
+// func (c *Container) Render(t *template.Template) (string, error) {
+// 	tmpl := t.Lookup(c.templateName)
+// 	if tmpl == nil {
+// 		return "", errors.New("lookup did not work")
+// 	}
+
+// 	var buf bytes.Buffer
+
+// 	err := tmpl.ExecuteTemplate(&buf, c.templateName, c)
+// 	if err != nil {
+// 		return "", err
+// 	}
+
+// 	return buf.String(), nil
+// }

@@ -2,7 +2,6 @@ package navbar
 
 import (
 	"bulma/web"
-	"text/template"
 )
 
 type MenuEntry struct {
@@ -33,6 +32,10 @@ func NewCo(c Content) *Navbar {
 	}
 }
 
-func (c *Navbar) Render(t *template.Template) (string, error) {
-	return web.Render(t, c.templateName, c)
+func (c *Navbar) GetTemplateName() string {
+	return c.templateName
 }
+
+// func (c *Navbar) Render(t *template.Template) (string, error) {
+// 	return web.Render(t, c.templateName, c)
+// }

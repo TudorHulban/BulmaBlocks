@@ -2,7 +2,6 @@ package mediaobject
 
 import (
 	"bulma/web"
-	"text/template"
 )
 
 type Content struct {
@@ -29,6 +28,10 @@ func NewCo(c Content) *Media {
 	}
 }
 
-func (c *Media) Render(t *template.Template) (string, error) {
-	return web.Render(t, c.templateName, c)
+// func (c *Media) Render(t *template.Template) (string, error) {
+// 	return web.Render(t, c.templateName, c)
+// }
+
+func (c *Media) GetTemplateName() string {
+	return c.templateName
 }
