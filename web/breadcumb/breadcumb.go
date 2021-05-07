@@ -4,17 +4,21 @@ import (
 	"bulma/web"
 )
 
-// Breadcumb Component
-type Breadcumb struct {
-	templateName string
-
+type Content struct {
 	Item       string
 	Categories []string
 }
 
+// Breadcumb Component
+type Breadcumb struct {
+	templateName string
+
+	Content
+}
+
 var _ web.IWeb = (*Breadcumb)(nil)
 
-func NewCo(i string, cat []string) *Breadcumb {
+func NewCo(i string, categories []string) *Breadcumb {
 	return &Breadcumb{
 		templateName: "breadcrumb.gohtml",
 
@@ -22,10 +26,6 @@ func NewCo(i string, cat []string) *Breadcumb {
 		Categories: cat,
 	}
 }
-
-// func (c *Breadcumb) Render(t *template.Template) (string, error) {
-// 	return web.Render(t, c.templateName, c)
-// }
 
 func (c *Breadcumb) GetTemplateName() string {
 	return c.templateName

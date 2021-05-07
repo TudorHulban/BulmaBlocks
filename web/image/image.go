@@ -68,12 +68,6 @@ func (c *Image) GetTemplateName() string {
 	return c.TemplateName
 }
 
-// func (c *Image) Render(t *template.Template) (string, error) {
-// 	c.prepareCSS()
-
-// 	return web.Render(t, c.TemplateName, c)
-// }
-
 func (c *Image) prepareCSS() {
 	if len(c.AdditionalCSSClasses) == 0 {
 		return

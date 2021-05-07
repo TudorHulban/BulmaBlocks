@@ -1,4 +1,4 @@
-package navbar
+package breadcumb
 
 import (
 	"fmt"

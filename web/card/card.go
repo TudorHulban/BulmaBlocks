@@ -60,10 +60,6 @@ func NewCoTest(c Content) (*Card, error) {
 	}, nil
 }
 
-// func (c *Card) Render(t *template.Template) (string, error) {
-// 	return web.Render(t, c.TemplateName, c)
-// }
-
 func (c *Card) GetTemplateName() string {
 	return c.TemplateName
 }

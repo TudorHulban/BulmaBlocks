@@ -12,8 +12,6 @@ type ButtonSimple struct {
 	Label string
 }
 
-// var _ IWeb = (*ButtonSimple)(nil)
-
 // Template Maybe a constructor should be used.
 func (c *ButtonSimple) Template() string {
 	c.templateName = "button_simple.gohtml"

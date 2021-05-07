@@ -8,8 +8,6 @@ type Layout struct {
 	Body  string
 }
 
-// var _ web.IWeb = (*Layout)(nil)
-
 func NewCo(title, body string) *Layout {
 	return &Layout{
 		templateName: "body.gohtml",
