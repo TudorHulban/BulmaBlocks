@@ -14,6 +14,8 @@ type Body struct {
 	markdown []string
 }
 
+var _ web.IWeb = (*Body)(nil)
+
 func NewCo() *Body {
 	return &Body{
 		templateName: "body.gohtml",
@@ -22,9 +24,13 @@ func NewCo() *Body {
 	}
 }
 
+func (c *Body) GetTemplateName() string {
+	return c.templateName
+}
+
 func (c *Body) Inject(t *template.Template, decorator webcontainers.IWebContainer, blocks ...web.IWeb) error {
 	for _, block := range blocks {
-		markdown, err := block.Render(t)
+		markdown, err := web.Render(t, block)
 		if err != nil {
 			return err
 		}
@@ -32,9 +38,9 @@ func (c *Body) Inject(t *template.Template, decorator webcontainers.IWebContaine
 		c.markdown = append(c.markdown, markdown)
 	}
 
-	decorator.SetMarkdown(c.Markdown())
+	decorator.SetContent([]string{c.Markdown()})
 
-	body, err := decorator.Render(t)
+	body, err := web.Render(t, decorator)
 	if err != nil {
 		return err
 	}

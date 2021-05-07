@@ -1,29 +1,49 @@
 package container
 
 import (
+	"bulma/web"
 	"bulma/webcontainers"
-	// "bytes"
-	// "errors"
-	// "text/template"
+	"strings"
 )
+
+type Content struct {
+	Markdown string
+}
 
 // Container Component
 type Container struct {
 	templateName string
 
-	Markdown string
+	Content
 }
+
+const goTemplate = "container.gohtml"
 
 var _ webcontainers.IWebContainer = (*Container)(nil)
 
-func NewCo() *Container {
-	return &Container{
-		templateName: "container.gohtml",
+func NewCo(testMode ...bool) *Container {
+	production := func() *Container {
+		return &Container{
+			templateName: goTemplate,
+		}
 	}
+
+	if testMode == nil {
+		return production()
+	}
+
+	if testMode[0] == true {
+		return &Container{
+			templateName: web.TemplateFolderPath + goTemplate,
+		}
+	}
+
+	return production()
 }
 
-func (c *Container) SetMarkdown(markdown string) {
-	c.Markdown = markdown
+// SetContent Method to be used for injecting markdown (ex. from already rendered templates)
+func (c *Container) SetContent(content []string) {
+	c.Content.Markdown = strings.Join(content, "n")
 }
 
 func (c *Container) GetTemplateName() string {

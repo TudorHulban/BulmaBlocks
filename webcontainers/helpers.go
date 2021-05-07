@@ -7,10 +7,6 @@ import (
 	"github.com/pkg/errors"
 )
 
-// func Render(t *template.Template, compoTemplateName string, component web.IWeb) (string, error) {
-// 	return web.Render(t, compoTemplateName, component)
-// }
-
 // Inject takes several components which it renders and decorates with the passed container.
 func Inject(t *template.Template, container IWebContainer, blocks ...web.IWeb) error {
 	var content []string

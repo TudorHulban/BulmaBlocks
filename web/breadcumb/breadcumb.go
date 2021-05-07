@@ -34,5 +34,5 @@ func (c *Breadcumb) GetTemplateName() string {
 }
 
 func (c *Breadcumb) getTemplatePath() string {
-	return "../../templates/" + c.templateName
+	return web.TemplateFolderPath + c.templateName
 }
