@@ -1,6 +1,7 @@
 package navbar
 
 import (
+	"bulma/web"
 	"fmt"
 	"testing"
 	"text/template"
@@ -24,7 +25,7 @@ func TestNavbar(t *testing.T) {
 	tmpl, err := tmpl.ParseFiles(c.GetTemplateName())
 	require.Nil(t, err)
 
-	s, errRender := c.Render(tmpl)
+	s, errRender := web.Render(tmpl, c)
 	require.Nil(t, errRender, "Did not render correctly.")
 	require.Contains(t, s, token, "Does not contain token.")
 

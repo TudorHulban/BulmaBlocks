@@ -5,7 +5,7 @@ import (
 )
 
 type Content struct {
-	Item       string
+	ActiveItem string // item presented on the page
 	Categories []string
 }
 
@@ -18,15 +18,21 @@ type Breadcumb struct {
 
 var _ web.IWeb = (*Breadcumb)(nil)
 
-func NewCo(i string, categories []string) *Breadcumb {
+func NewCo(item string, categories []string) *Breadcumb {
 	return &Breadcumb{
 		templateName: "breadcrumb.gohtml",
 
-		Item:       i,
-		Categories: cat,
+		Content: Content{
+			ActiveItem: item,
+			Categories: categories,
+		},
 	}
 }
 
 func (c *Breadcumb) GetTemplateName() string {
 	return c.templateName
+}
+
+func (c *Breadcumb) getTemplatePath() string {
+	return "../../templates/" + c.templateName
 }
