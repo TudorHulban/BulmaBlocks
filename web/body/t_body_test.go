@@ -1,4 +1,4 @@
-package compobody
+package body
 
 import (
 	"bulma/cachetemplates"

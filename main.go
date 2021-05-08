@@ -1,113 +1,52 @@
 package main
 
 import (
-	"embed"
-	"fmt"
-	"os"
-	"text/template"
-
+	"bulma/cachetemplates"
+	"bulma/page"
 	"bulma/web/body"
-	"bulma/web/breadcumb"
-	"bulma/web/card"
-	"bulma/web/image"
-	"bulma/web/layout"
-	"bulma/web/media_object"
-	"bulma/web/navbar"
-	"bulma/webcontainers/container"
+	"bytes"
+
+	"github.com/gofiber/fiber/v2"
 )
 
-//go:embed templates/*.gohtml
-var f embed.FS
-
 func main() {
-	tmpl := template.New("views")
+	app := fiber.New()
 
-	tmpl, err := tmpl.ParseFS(f, "templates/*.gohtml")
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
+	app.Get("/", func(c *fiber.Ctx) error {
+		resp, err := prepareContent()
+		if err != nil {
+			return c.SendString(err.Error())
+		}
 
-	nav := navbar.NewCo(navbar.Content{
-		ItemsNoSubMenu: []string{"Menu1", "Menu2", "Menu3"},
-		ItemsWithSubMenus: []navbar.MenuEntry{
-			navbar.MenuEntry{Menu: "XXX",
-				Entries: []string{"XXX-A", "XXX-B", "XXX-C"},
-			},
-			navbar.MenuEntry{Menu: "YYY",
-				Entries: []string{"YYY-A"},
-			},
-		},
+		return c.SendString(string(resp))
 	})
 
-	b := breadcumb.NewCo("Tea", []string{"A", "B"})
+	app.Listen(":7000")
+}
 
-	m1 := mediaobject.NewCo(mediaobject.Content{
-		FullName: "John Smith",
-		Age:      "44",
-		Email:    "john@gmx.de",
-		Details:  "Life is beautiful.",
+func prepareContent() (cachetemplates.HTML, error) {
+	cache, errCache := cachetemplates.NewCacher("./templates")
+	if errCache != nil {
+		return nil, errCache
+	}
+
+	p, errPage := page.NewLandingPage("Landing Page", cache, page.Content{
+		Title: "Landing Page",
 	})
-
-	m2 := mediaobject.NewCo(mediaobject.Content{
-		FullName: "Maurice Ravel",
-		Age:      "74",
-		Email:    "",
-		Details:  "Music is everything.",
-	})
-
-	img1, errImg1 := image.NewImageFixedSize(128, image.Content{
-		ImageSrc: "https://bulma.io/images/placeholders/256x256.png",
-		ImageAlt: "Place Holder",
-	})
-	if errImg1 != nil {
-		fmt.Println(err)
-		os.Exit(2)
+	if errPage != nil {
+		return nil, errPage
 	}
 
-	img2, errImg2 := image.NewImageFixedSize(32, image.Content{
-		ImageSrc: "https://bulma.io/images/placeholders/32x32.png",
-		ImageAlt: "Place Holder",
-	})
-	if errImg2 != nil {
-		fmt.Println(err)
-		os.Exit(3)
+	b, errBody := body.NewCo(cache)
+	if errBody != nil {
+		return nil, errBody
 	}
 
-	ccontent := card.Content{
-		Title:    "This is card title",
-		SubTitle: "Subtitle",
-		Text:     "Lorem",
-	}
+	b.AppendToBody("xx1", "yy2")
+	p.AppendToBody(b.Markdown...)
 
-	ccontent.CardImage = card.CardImage{
-		img1.Content,
-	}
-	ccontent.CardThumbnailImage = card.CardThumbnailImage{
-		img2.Content,
-	}
+	var res bytes.Buffer
+	errRender := p.RenderTo(&res)
 
-	card := card.NewCo(ccontent)
-
-	c := container.NewCo()
-
-	body := compobody.Body{}
-	errInject := body.Inject(tmpl, c, nav, b, m1, m2, card)
-	if errInject != nil {
-		fmt.Println(errInject)
-		os.Exit(4)
-	}
-
-	f, errCreate := os.Create("output.html")
-	if errCreate != nil {
-		fmt.Println("errCreate: ", errCreate)
-	}
-	defer f.Close()
-
-	l := layout.NewCo("This is title", body.Markdown())
-	errExe := tmpl.ExecuteTemplate(f, "layout.gohtml", l)
-	if errExe != nil {
-		fmt.Println(errExe)
-		os.Exit(5)
-	}
+	return cachetemplates.HTML(res.String()), errRender
 }
