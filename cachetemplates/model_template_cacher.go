@@ -1,7 +1,6 @@
 package cachetemplates
 
 import (
-	"fmt"
 	"io/fs"
 	"io/ioutil"
 	"log"
@@ -26,7 +25,6 @@ func NewCacher(templatesFolders ...string) (map[TemplatePath]HTML, error) {
 	}
 
 	allFilesPaths := []string{}
-	fmt.Println(folders)
 
 	for _, folder := range folders {
 		pos := strings.Index(folder, "/")
@@ -39,7 +37,6 @@ func NewCacher(templatesFolders ...string) (map[TemplatePath]HTML, error) {
 		if err != nil {
 			return nil, err
 		}
-		fmt.Println(files)
 
 		for _, file := range files {
 			allFilesPaths = append(allFilesPaths, folder+file.Name())

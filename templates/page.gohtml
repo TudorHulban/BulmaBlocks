@@ -4,17 +4,11 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{.Title}}</title>
+    <title>{{.Content.Title}}</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
   </head>
   <body>
-  {{.Body}}
-   <script src="https://kit.fontawesome.com/908be3e134.js" crossorigin="anonymous"></script>
-  
-  <style>
-      body {
-        background-color: linen;
-      }
-  </style>
+  {{.Content.Body}}
+   <script src={{.Content.FontAwesomeURL}} crossorigin="anonymous"></script>
 </body>
 </html>
