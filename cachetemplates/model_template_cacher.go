@@ -3,7 +3,9 @@ package cachetemplates
 import (
 	"io/fs"
 	"io/ioutil"
+	"log"
 	"os"
+	"strings"
 
 	"github.com/pkg/errors"
 )
@@ -12,7 +14,14 @@ type TemplatePath string
 type HTML []byte
 
 func NewCacher(templatesFolder string) (map[TemplatePath]HTML, error) {
-	files, err := getFileNames(templatesFolder)
+	i := strings.Index(templatesFolder, "/")
+	folder := templatesFolder
+
+	if i != len(folder) {
+		folder = folder + "/"
+	}
+
+	files, err := getFileNames(folder)
 	if err != nil {
 		return nil, err
 	}
@@ -22,10 +31,12 @@ func NewCacher(templatesFolder string) (map[TemplatePath]HTML, error) {
 
 	}
 
-	var res map[TemplatePath]HTML
+	res := make(map[TemplatePath]HTML, len(files))
 
 	for _, file := range files {
-		data, err := getTemplateHTML(file.Name())
+		log.Println(file.Name())
+
+		data, err := getTemplateHTML(folder + file.Name())
 		if err != nil {
 			return nil, errors.WithMessagef(err, "could not get template HTML for %s", file.Name())
 		}
