@@ -11,7 +11,7 @@ import (
 type Content struct {
 	Title          string
 	FontAwesomeURL string
-	Body           string
+	Body           []string
 }
 
 type WebPage struct {
@@ -42,6 +42,10 @@ func NewLandingPage(pageName string, templates map[cachetemplates.TemplatePath]c
 	}
 
 	return &page, nil
+}
+
+func (p *WebPage) AppendToBody(html ...string) {
+	p.Body = append(p.Body, html...)
 }
 
 func (p *WebPage) RenderTo(w io.Writer) error {

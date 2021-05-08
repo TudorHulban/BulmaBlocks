@@ -7,8 +7,8 @@
     <title>{{.Content.Title}}</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
   </head>
-  <body>
-  {{.Content.Body}}
+  <body>{{range .Content.Body}}
+  {{.}}{{end}}
    <script src={{.Content.FontAwesomeURL}} crossorigin="anonymous"></script>
 </body>
 </html>

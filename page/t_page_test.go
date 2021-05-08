@@ -18,5 +18,7 @@ func TestPage(t *testing.T) {
 	require.Nil(t, errNew)
 	require.NotNil(t, p.templateHTML)
 
+	p.AppendToBody("xxx", "yyy")
+
 	p.RenderTo(os.Stdout)
 }

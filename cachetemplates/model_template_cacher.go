@@ -27,9 +27,9 @@ func NewCacher(templatesFolders ...string) (map[TemplatePath]HTML, error) {
 	allFilesPaths := []string{}
 
 	for _, folder := range folders {
-		pos := strings.Index(folder, "/")
+		pos := strings.LastIndex(folder, "/")
 
-		if pos != len(folder) {
+		if pos != len(folder)-1 {
 			folder = folder + "/"
 		}
 
