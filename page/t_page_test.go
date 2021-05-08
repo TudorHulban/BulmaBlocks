@@ -8,6 +8,7 @@ import (
 )
 
 func TestPage(t *testing.T) {
+
 	p, errNew := NewLandingPage("Landing Page", Content{
 		Author: "John",
 	})

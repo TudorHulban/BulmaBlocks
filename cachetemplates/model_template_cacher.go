@@ -1,6 +1,7 @@
 package cachetemplates
 
 import (
+	"fmt"
 	"io/fs"
 	"io/ioutil"
 	"log"
@@ -13,35 +14,54 @@ import (
 type TemplatePath string
 type HTML []byte
 
-func NewCacher(templatesFolder string) (map[TemplatePath]HTML, error) {
-	i := strings.Index(templatesFolder, "/")
-	folder := templatesFolder
+const templateFolderSlash = "../templates/"
 
-	if i != len(folder) {
-		folder = folder + "/"
+func NewCacher(templatesFolders ...string) (map[TemplatePath]HTML, error) {
+	var folders []string
+
+	if len(templatesFolders) == 0 {
+		folders = append(folders, templateFolderSlash)
+	} else {
+		folders = templatesFolders
 	}
 
-	files, err := getFileNames(folder)
-	if err != nil {
-		return nil, err
-	}
+	allFilesPaths := []string{}
+	fmt.Println(folders)
 
-	if len(files) == 0 {
-		return nil, errors.Errorf("cacher could not find any files in %s", templatesFolder)
+	for _, folder := range folders {
+		pos := strings.Index(folder, "/")
 
-	}
-
-	res := make(map[TemplatePath]HTML, len(files))
-
-	for _, file := range files {
-		log.Println(file.Name())
-
-		data, err := getTemplateHTML(folder + file.Name())
-		if err != nil {
-			return nil, errors.WithMessagef(err, "could not get template HTML for %s", file.Name())
+		if pos != len(folder) {
+			folder = folder + "/"
 		}
 
-		res[TemplatePath(file.Name())] = data
+		files, err := getFolderFileNames(folder)
+		if err != nil {
+			return nil, err
+		}
+		fmt.Println(files)
+
+		for _, file := range files {
+			allFilesPaths = append(allFilesPaths, folder+file.Name())
+		}
+	}
+
+	if len(allFilesPaths) == 0 {
+		return nil, errors.Errorf("cacher could not find any files in %s", templatesFolders)
+
+	}
+
+	res := make(map[TemplatePath]HTML, len(allFilesPaths))
+
+	for _, file := range allFilesPaths {
+		log.Println(file)
+
+		data, err := getTemplateHTML(file)
+		if err != nil {
+			return nil, errors.WithMessagef(err, "could not get template HTML for %s", file)
+		}
+
+		res[TemplatePath(file)] = data
 	}
 
 	return res, nil
@@ -64,6 +84,6 @@ func getTemplateHTML(filePath string) ([]byte, error) {
 	return ioutil.ReadFile(filePath)
 }
 
-func getFileNames(folder string) ([]fs.FileInfo, error) {
+func getFolderFileNames(folder string) ([]fs.FileInfo, error) {
 	return ioutil.ReadDir(folder)
 }
