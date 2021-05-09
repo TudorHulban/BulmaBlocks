@@ -3,15 +3,9 @@ package breadcumb
 import (
 	"bulma/cachetemplates"
 	"bulma/page"
-
-	// "bulma/web"
 	"bulma/web/body"
-	// "bulma/webcontainers/container"
-	// "bytes"
 	"os"
 	"testing"
-
-	// "text/template"
 
 	"github.com/stretchr/testify/require"
 )
