@@ -48,7 +48,13 @@ func (b *Body) AppendToBody(html ...string) {
 	b.Markdown = append(b.Markdown, html...)
 }
 
-func (b *Body) GetTemplateName() string {
+func (b *Body) Write(markdown []byte) (int, error) {
+	b.Markdown = append(b.Markdown, string(markdown))
+
+	return 0, nil
+}
+
+func (b *Body) TemplateName() string {
 	return b.templateName
 }
 

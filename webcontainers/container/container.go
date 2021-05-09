@@ -46,6 +46,6 @@ func (c *Container) SetContent(content []string) {
 	c.Content.Markdown = strings.Join(content, "n")
 }
 
-func (c *Container) GetTemplateName() string {
+func (c *Container) TemplateName() string {
 	return c.templateName
 }

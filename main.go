@@ -5,22 +5,28 @@ import (
 	"bulma/page"
 	"bulma/web/body"
 	"bytes"
+	"log"
 
-	"net/http"
+	"github.com/gofiber/fiber/v2"
 )
 
 func main() {
-	http.HandleFunc("/", serve)
-	http.ListenAndServe(":7000", nil)
+	app := fiber.New()
+	app.Get("/", serve)
+
+	log.Fatal(app.Listen(":7000"))
 }
 
-func serve(w http.ResponseWriter, r *http.Request) {
+func serve(c *fiber.Ctx) error {
+	c.Status(fiber.StatusOK).Response().Header.SetContentType("text/html")
+
 	resp, err := prepareContent()
 	if err != nil {
-		w.Write([]byte(err.Error()))
+		c.Status(fiber.StatusInternalServerError).Response().SetBody([]byte(err.Error()))
 	}
 
-	w.Write([]byte(resp))
+	c.Status(fiber.StatusOK).Response().SetBody([]byte(resp))
+	return nil
 }
 
 func prepareContent() (cachetemplates.HTML, error) {
