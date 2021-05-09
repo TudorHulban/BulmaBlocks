@@ -5,6 +5,7 @@ import (
 	"bulma/page"
 	"bulma/web/body"
 	"bulma/web/breadcumb"
+	"bulma/webcontainers/container"
 	"bytes"
 	"log"
 
@@ -51,13 +52,21 @@ func prepareContent() (cachetemplates.HTML, error) {
 		return nil, errNewBreadcumb
 	}
 
-	b, errBody := body.NewCo(cache)
+	// bringing now the container
+	container, errNewContainer := container.NewCo("Container", cache)
+	if errNewContainer != nil {
+		return nil, errNewContainer
+	}
+
+	body, errBody := body.NewCo(cache)
 	if errBody != nil {
 		return nil, errBody
 	}
 
-	bread.RenderTo(b)
-	p.AppendToBody(b.Markdown...)
+	bread.RenderTo(container)
+	container.RenderTo(body)
+
+	p.AppendToBody(body.Markdown...)
 
 	var res bytes.Buffer
 	errRender := p.RenderTo(&res)

@@ -3,10 +3,11 @@ package body
 import (
 	"bulma/cachetemplates"
 	"bulma/web"
-	"bulma/webcontainers"
+
+	// "bulma/webcontainers"
 	"errors"
 	"strings"
-	"text/template"
+	// "text/template"
 )
 
 // Body Component
@@ -58,24 +59,24 @@ func (b *Body) TemplateName() string {
 	return b.templateName
 }
 
-func (b *Body) Inject(t *template.Template, decorator webcontainers.IWebContainer, blocks ...web.IWeb) error {
-	for _, block := range blocks {
-		markdown, err := web.Render(t, block)
-		if err != nil {
-			return err
-		}
+// func (b *Body) Inject(t *template.Template, decorator webcontainers.IWebContainer, blocks ...web.IWeb) error {
+// 	for _, block := range blocks {
+// 		markdown, err := web.Render(t, block)
+// 		if err != nil {
+// 			return err
+// 		}
 
-		b.Markdown = append(b.Markdown, markdown)
-	}
+// 		b.Markdown = append(b.Markdown, markdown)
+// 	}
 
-	decorator.SetContent(b.Markdown)
+// 	decorator.SetContent(b.Markdown)
 
-	body, err := web.Render(t, decorator)
-	if err != nil {
-		return err
-	}
+// 	body, err := web.Render(t, decorator)
+// 	if err != nil {
+// 		return err
+// 	}
 
-	b.Markdown = []string{body}
+// 	b.Markdown = []string{body}
 
-	return nil
-}
+// 	return nil
+// }
