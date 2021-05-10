@@ -5,7 +5,7 @@ import (
 	"bulma/page"
 	"bulma/web/body"
 	"bulma/web/breadcumb"
-	"bulma/webcontainers/container"
+	"bulma/webcontainers/section"
 	"bytes"
 	"log"
 
@@ -27,7 +27,7 @@ func serve(c *fiber.Ctx) error {
 		c.Status(fiber.StatusInternalServerError).Response().SetBody([]byte(err.Error()))
 	}
 
-	c.Status(fiber.StatusOK).Response().SetBody([]byte(resp))
+	c.Type("html").Send([]byte(resp))
 	return nil
 }
 
@@ -53,7 +53,7 @@ func prepareContent() (cachetemplates.HTML, error) {
 	}
 
 	// bringing now the container
-	container, errNewContainer := container.NewCo("Container", cache)
+	section, errNewContainer := section.NewCo("Container", cache)
 	if errNewContainer != nil {
 		return nil, errNewContainer
 	}
@@ -63,8 +63,8 @@ func prepareContent() (cachetemplates.HTML, error) {
 		return nil, errBody
 	}
 
-	bread.RenderTo(container)
-	container.RenderTo(body)
+	bread.RenderTo(section)
+	section.RenderTo(body)
 
 	p.AppendToBody(body.Markdown...)
 

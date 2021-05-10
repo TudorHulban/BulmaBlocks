@@ -1,4 +1,4 @@
-package container
+package section
 
 import (
 	"bulma/cachetemplates"
@@ -30,16 +30,16 @@ func TestContainerFullPage(t *testing.T) {
 	require.Nil(t, errNewBreadcumb)
 
 	// bringing now the container
-	container, errNewContainer := NewCo("Container", cache)
+	section, errNewContainer := NewCo("Container", cache)
 	require.Nil(t, errNewContainer)
 
-	bread.RenderTo(container)
+	bread.RenderTo(section)
 
 	// bringing now the Body
 	b, errNewBody := body.NewCo(cache)
 	require.Nil(t, errNewBody)
 
-	container.RenderTo(b)
+	section.RenderTo(b)
 
 	p.AppendToBody(b.Markdown...)
 	p.RenderTo(os.Stdout)

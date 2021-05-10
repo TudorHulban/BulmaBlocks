@@ -1,4 +1,4 @@
-package container
+package section
 
 import (
 	"bulma/cachetemplates"
@@ -8,8 +8,8 @@ import (
 	"text/template"
 )
 
-// Container Component
-type Container struct {
+// Section Component
+type Section struct {
 	Name         string
 	templateName string
 	templateHTML []byte
@@ -17,29 +17,29 @@ type Container struct {
 	Markdown []string
 }
 
-func NewCo(containerName string, templates map[cachetemplates.TemplatePath]cachetemplates.HTML) (*Container, error) {
-	container := Container{
-		Name:         containerName,
-		templateName: "container.gohtml",
+func NewCo(sectionName string, templates map[cachetemplates.TemplatePath]cachetemplates.HTML) (*Section, error) {
+	section := Section{
+		Name:         sectionName,
+		templateName: "section.gohtml",
 	}
 
 	var err error
 
-	container.templateHTML, err = container.getTemplateHTML(templates)
+	section.templateHTML, err = section.getTemplateHTML(templates)
 	if err != nil {
 		return nil, err
 	}
 
-	return &container, nil
+	return &section, nil
 }
 
-func (c *Container) Write(markdown []byte) (int, error) {
+func (c *Section) Write(markdown []byte) (int, error) {
 	c.Markdown = append(c.Markdown, string(markdown))
 
 	return 0, nil
 }
 
-func (c *Container) RenderTo(w io.Writer) error {
+func (c *Section) RenderTo(w io.Writer) error {
 	t := template.New(c.Name)
 
 	t, errParse := t.Parse(string(c.templateHTML))
@@ -50,7 +50,7 @@ func (c *Container) RenderTo(w io.Writer) error {
 	return t.Execute(w, c)
 }
 
-func (c *Container) getTemplateHTML(templates map[cachetemplates.TemplatePath]cachetemplates.HTML) ([]byte, error) {
+func (c *Section) getTemplateHTML(templates map[cachetemplates.TemplatePath]cachetemplates.HTML) ([]byte, error) {
 	for k, html := range templates {
 		if strings.Contains(string(k), c.templateName) {
 			return html, nil
@@ -60,6 +60,6 @@ func (c *Container) getTemplateHTML(templates map[cachetemplates.TemplatePath]ca
 	return nil, errors.New("no template was found for page")
 }
 
-func (c *Container) TemplateName() string {
+func (c *Section) TemplateName() string {
 	return c.templateName
 }
