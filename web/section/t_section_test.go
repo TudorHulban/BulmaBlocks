@@ -32,12 +32,12 @@ func TestContainerFullPage(t *testing.T) {
 	// bringing now the container
 	section := NewCo("Section A", cache)
 
-	web.RenderComponentTo(bread, section, cache)
+	require.Nil(t, web.RenderComponentTo(bread, section, cache))
 
 	// bringing now the Body
 	body := body.NewCo(cache)
 
-	web.RenderComponentTo(section, body, cache)
+	require.Nil(t, web.RenderComponentTo(section, body, cache))
 
 	p.AppendToBody(body.Markdown...)
 	p.RenderTo(os.Stdout)

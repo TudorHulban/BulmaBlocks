@@ -22,12 +22,12 @@ func NewCo(sectionName string, templates map[cachetemplates.TemplatePath]cachete
 	}
 }
 
+func (c *Section) TemplateName() string {
+	return c.templateName
+}
+
 func (c *Section) Write(markdown []byte) (int, error) {
 	c.Markdown = append(c.Markdown, string(markdown))
 
 	return 0, nil
-}
-
-func (c *Section) TemplateName() string {
-	return c.templateName
 }

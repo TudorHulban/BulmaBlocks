@@ -1,12 +1,10 @@
 package row
 
 import (
+	"bulma/web/card"
 	"fmt"
 	"testing"
 	"text/template"
-
-	"bulma/web/card"
-	"bulma/webcontainers"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"

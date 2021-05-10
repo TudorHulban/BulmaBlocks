@@ -3,10 +3,6 @@ package navbar
 import (
 	"bulma/cachetemplates"
 	"bulma/web"
-	// "errors"
-	// "io"
-	// "strings"
-	// "text/template"
 )
 
 type MenuEntry struct {
