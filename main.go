@@ -2,11 +2,12 @@ package main
 
 import (
 	"bulma/cachetemplates"
-	"bulma/page"
 	"bulma/web"
 	"bulma/web/body"
 	"bulma/web/breadcumb"
-	"bulma/webcontainers/section"
+	"bulma/web/navbar"
+	"bulma/web/page"
+	"bulma/web/section"
 	"bytes"
 	"log"
 
@@ -38,12 +39,20 @@ func prepareContent() (cachetemplates.HTML, error) {
 		return nil, errCache
 	}
 
-	p, errPage := page.NewLandingPage("Landing Page", cache, page.Content{
+	page, errPage := page.NewLandingPage("Landing Page", cache, page.Content{
 		Title: "Landing Page",
 	})
 	if errPage != nil {
 		return nil, errPage
 	}
+
+	nav := navbar.NewCo("Navigation", cache, navbar.Content{
+		ItemsNoSubMenu: []string{"Menu1", "Menu2", "Menu3"},
+		ItemsWithSubMenus: []navbar.MenuEntry{navbar.MenuEntry{
+			Menu:    "XXX",
+			Entries: []string{"XXX-A", "XXX-B", "XXX-C"},
+		}},
+	})
 
 	bread, errNewBreadcumb := breadcumb.NewCo("Breadcumb", cache, breadcumb.Content{
 		ActiveItem: "Vegan Burger",
@@ -64,13 +73,15 @@ func prepareContent() (cachetemplates.HTML, error) {
 		return nil, errBody
 	}
 
+	// TODO: check errors
+	web.RenderComponentTo(nav, body, cache)
 	web.RenderComponentTo(bread, section, cache)
-	section.RenderTo(body)
+	web.RenderComponentTo(section, body, cache)
 
-	p.AppendToBody(body.Markdown...)
+	page.AppendToBody(body.Markdown...)
 
 	var res bytes.Buffer
-	errRender := p.RenderTo(&res)
+	errRender := page.RenderTo(&res)
 
 	return cachetemplates.HTML(res.String()), errRender
 }

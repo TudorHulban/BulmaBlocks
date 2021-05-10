@@ -2,7 +2,7 @@ package body
 
 import (
 	"bulma/cachetemplates"
-	"bulma/page"
+	"bulma/web/page"
 	"os"
 	"testing"
 
@@ -18,12 +18,10 @@ func TestBodyAppend(t *testing.T) {
 	})
 	require.Nil(t, errNew)
 
-	// bringing now the body
-	b, errNew := NewCo(cache)
-	require.Nil(t, errNew)
+	body := NewCo(cache)
 
-	b.AppendToBody("xx1", "yy2")
-	p.AppendToBody(b.Markdown...)
+	body.AppendToBody("xx1", "yy2")
+	p.AppendToBody(body.Markdown...)
 
 	p.RenderTo(os.Stdout)
 }

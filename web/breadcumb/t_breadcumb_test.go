@@ -2,9 +2,9 @@ package breadcumb
 
 import (
 	"bulma/cachetemplates"
-	"bulma/page"
 	"bulma/web"
 	"bulma/web/body"
+	"bulma/web/page"
 	"os"
 	"testing"
 
@@ -23,17 +23,16 @@ func TestBreadcumbFullPage(t *testing.T) {
 	require.Nil(t, errNew)
 
 	// Breadcumb Component
-	bread, errNewBreadcumb := NewCo("Vegan Burger", cache, Content{
+	bread := NewCo("Vegan Burger", cache, Content{
 		ActiveItem: "Vegan Burger",
 		Categories: []string{"Home", "Categ A", token},
 	})
-	require.Nil(t, errNewBreadcumb)
 
 	// bringing now the Body
 	body, errNewBody := body.NewCo(cache)
 	require.Nil(t, errNewBody)
 
-	web.RenderComponentTo(bread, body, cache)
+	require.Nil(t, web.RenderComponentTo(bread, body, cache))
 
 	page.AppendToBody(body.Markdown...)
 	page.RenderTo(os.Stdout)

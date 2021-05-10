@@ -3,10 +3,10 @@ package navbar
 import (
 	"bulma/cachetemplates"
 	"bulma/web"
-	"errors"
-	"io"
-	"strings"
-	"text/template"
+	// "errors"
+	// "io"
+	// "strings"
+	// "text/template"
 )
 
 type MenuEntry struct {
@@ -31,35 +31,15 @@ type Navbar struct {
 
 var _ web.IRenderer = (*Navbar)(nil)
 
-func NewCo(c Content) *Navbar {
+func NewCo(componentName string, templates map[cachetemplates.TemplatePath]cachetemplates.HTML, content Content) *Navbar {
 	return &Navbar{
+		Name:         componentName,
 		templateName: "navbar.gohtml",
 
-		Content: c,
+		Content: content,
 	}
 }
 
-func (n *Navbar) RenderTo(w io.Writer) error {
-	t := template.New(n.Name)
-
-	t, errParse := t.Parse(string(n.templateHTML))
-	if errParse != nil {
-		return errParse
-	}
-
-	return t.Execute(w, n)
-}
-
-func (n *Navbar) templatePath() string {
-	return web.TemplateFolderPath + n.templateName
-}
-
-func (n *Navbar) getTemplateHTML(templates map[cachetemplates.TemplatePath]cachetemplates.HTML) ([]byte, error) {
-	for k, html := range templates {
-		if strings.Contains(string(k), n.templateName) {
-			return html, nil
-		}
-	}
-
-	return nil, errors.New("no template was found for page")
+func (n *Navbar) TemplateName() string {
+	return n.templateName
 }

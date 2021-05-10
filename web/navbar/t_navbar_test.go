@@ -1,10 +1,12 @@
 package navbar
 
 import (
+	"bulma/cachetemplates"
 	"bulma/web"
-	"fmt"
+	"bulma/web/body"
+	"bulma/web/page"
+	"os"
 	"testing"
-	"text/template"
 
 	"github.com/stretchr/testify/require"
 )
@@ -12,7 +14,15 @@ import (
 const token = "xxx"
 
 func TestNavbar(t *testing.T) {
-	c := NewCo(Content{
+	cache, errNew := cachetemplates.NewCacher("../../templates")
+	require.Nil(t, errNew)
+
+	page, errNew := page.NewLandingPage("Landing Page", cache, page.Content{
+		Title: "Landing Page",
+	})
+	require.Nil(t, errNew)
+
+	nav := NewCo("Navigation", cache, Content{
 		ItemsNoSubMenu: []string{"Menu1", "Menu2", token},
 		ItemsWithSubMenus: []MenuEntry{MenuEntry{
 			Menu:    "XXX",
@@ -20,14 +30,12 @@ func TestNavbar(t *testing.T) {
 		}},
 	})
 
-	tmpl := template.New("views")
+	// bringing now the Body
+	body, errNewBody := body.NewCo(cache)
+	require.Nil(t, errNewBody)
 
-	tmpl, err := tmpl.ParseFiles(c.GetTemplateName())
-	require.Nil(t, err)
+	require.Nil(t, web.RenderComponentTo(nav, body, cache))
 
-	s, errRender := web.Render(tmpl, c)
-	require.Nil(t, errRender, "Did not render correctly.")
-	require.Contains(t, s, token, "Does not contain token.")
-
-	fmt.Println(s)
+	page.AppendToBody(body.Markdown...)
+	page.RenderTo(os.Stdout)
 }

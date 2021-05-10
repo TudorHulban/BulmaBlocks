@@ -2,10 +2,10 @@ package section
 
 import (
 	"bulma/cachetemplates"
-	"bulma/page"
 	"bulma/web"
 	"bulma/web/body"
 	"bulma/web/breadcumb"
+	"bulma/web/page"
 	"os"
 	"testing"
 
@@ -24,21 +24,18 @@ func TestContainerFullPage(t *testing.T) {
 	require.Nil(t, errNew)
 
 	// Breadcumb Component
-	bread, errNewBreadcumb := breadcumb.NewCo("Breadcumb", cache, breadcumb.Content{
+	bread := breadcumb.NewCo("Breadcumb", cache, breadcumb.Content{
 		ActiveItem: "Vegan Burger",
 		Categories: []string{"Home", "Categ A", token},
 	})
-	require.Nil(t, errNewBreadcumb)
 
 	// bringing now the container
-	section, errNewContainer := NewCo("Section A", cache)
-	require.Nil(t, errNewContainer)
+	section := NewCo("Section A", cache)
 
 	web.RenderComponentTo(bread, section, cache)
 
 	// bringing now the Body
-	body, errNewBody := body.NewCo(cache)
-	require.Nil(t, errNewBody)
+	body := body.NewCo(cache)
 
 	web.RenderComponentTo(section, body, cache)
 
