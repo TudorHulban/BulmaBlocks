@@ -13,8 +13,6 @@ type IRenderer interface {
 	TemplateName() string
 }
 
-// type URL string
-
 const TemplateFolderPath = "../../templates/"
 
 func templateHTML(webComponent IRenderer, templates map[cachetemplates.TemplatePath]cachetemplates.HTML) ([]byte, error) {
