@@ -1,7 +1,12 @@
 package navbar
 
 import (
+	"bulma/cachetemplates"
 	"bulma/web"
+	"errors"
+	"io"
+	"strings"
+	"text/template"
 )
 
 type MenuEntry struct {
@@ -17,12 +22,14 @@ type Content struct {
 
 // Layout Component
 type Navbar struct {
+	Name         string
 	templateName string
+	templateHTML []byte
 
 	Content
 }
 
-var _ web.IWeb = (*Navbar)(nil)
+var _ web.IRenderer = (*Navbar)(nil)
 
 func NewCo(c Content) *Navbar {
 	return &Navbar{
@@ -32,6 +39,27 @@ func NewCo(c Content) *Navbar {
 	}
 }
 
-func (c *Navbar) GetTemplateName() string {
-	return c.templateName
+func (n *Navbar) RenderTo(w io.Writer) error {
+	t := template.New(n.Name)
+
+	t, errParse := t.Parse(string(n.templateHTML))
+	if errParse != nil {
+		return errParse
+	}
+
+	return t.Execute(w, n)
+}
+
+func (n *Navbar) templatePath() string {
+	return web.TemplateFolderPath + n.templateName
+}
+
+func (n *Navbar) getTemplateHTML(templates map[cachetemplates.TemplatePath]cachetemplates.HTML) ([]byte, error) {
+	for k, html := range templates {
+		if strings.Contains(string(k), n.templateName) {
+			return html, nil
+		}
+	}
+
+	return nil, errors.New("no template was found for page")
 }

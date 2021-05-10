@@ -2,7 +2,6 @@ package body
 
 import (
 	"bulma/cachetemplates"
-	"bulma/web"
 
 	// "bulma/webcontainers"
 	"errors"
@@ -17,8 +16,6 @@ type Body struct {
 
 	Markdown []string
 }
-
-var _ web.IWeb = (*Body)(nil)
 
 func NewCo(templates map[cachetemplates.TemplatePath]cachetemplates.HTML) (*Body, error) {
 	body := Body{

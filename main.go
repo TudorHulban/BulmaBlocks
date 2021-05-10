@@ -3,6 +3,7 @@ package main
 import (
 	"bulma/cachetemplates"
 	"bulma/page"
+	"bulma/web"
 	"bulma/web/body"
 	"bulma/web/breadcumb"
 	"bulma/webcontainers/section"
@@ -63,7 +64,7 @@ func prepareContent() (cachetemplates.HTML, error) {
 		return nil, errBody
 	}
 
-	bread.RenderTo(section)
+	web.RenderComponentTo(bread, section, cache)
 	section.RenderTo(body)
 
 	p.AppendToBody(body.Markdown...)
