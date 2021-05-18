@@ -5,6 +5,7 @@ import (
 	"bulma/web"
 	"bulma/web/body"
 	"bulma/web/breadcumb"
+	"bulma/web/image"
 	"bulma/web/navbar"
 	"bulma/web/page"
 	"bulma/web/section"
@@ -16,14 +17,13 @@ import (
 
 func main() {
 	app := fiber.New()
+	app.Static("/", "./public")
 	app.Get("/", serve)
 
 	log.Fatal(app.Listen(":7000"))
 }
 
 func serve(c *fiber.Ctx) error {
-	c.Status(fiber.StatusOK).Response().Header.SetContentType("text/html")
-
 	resp, err := prepareContent()
 	if err != nil {
 		c.Status(fiber.StatusInternalServerError).Response().SetBody([]byte(err.Error()))
@@ -54,28 +54,25 @@ func prepareContent() (cachetemplates.HTML, error) {
 		}},
 	})
 
-	bread, errNewBreadcumb := breadcumb.NewCo("Breadcumb", cache, breadcumb.Content{
+	bread := breadcumb.NewCo("Breadcumb", cache, breadcumb.Content{
 		ActiveItem: "Vegan Burger",
 		Categories: []string{"Home", "Categ A", "Categ B"},
 	})
-	if errNewBreadcumb != nil {
-		return nil, errNewBreadcumb
-	}
+
+	img := image.NewImageRounded("Round Image", cache, image.Content{
+		ImageSrc: "./public/pexels_1.jpg",
+		ImageAlt: "rounded pexel image",
+	})
 
 	// bringing now the container
-	section, errNewContainer := section.NewCo("Container", cache)
-	if errNewContainer != nil {
-		return nil, errNewContainer
-	}
+	section := section.NewCo("Container", cache)
 
-	body, errBody := body.NewCo(cache)
-	if errBody != nil {
-		return nil, errBody
-	}
+	body := body.NewCo(cache)
 
 	// TODO: check errors
 	web.RenderComponentTo(nav, body, cache)
 	web.RenderComponentTo(bread, section, cache)
+	web.RenderComponentTo(img, section, cache)
 	web.RenderComponentTo(section, body, cache)
 
 	page.AppendToBody(body.Markdown...)

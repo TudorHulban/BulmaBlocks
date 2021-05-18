@@ -19,7 +19,7 @@ var fixedSquareSizes = map[int]string{
 
 type Content struct {
 	IsImageSize          string
-	ImageURL             string
+	ImageSrc             string
 	ImageAlt             string
 	AdditionalCSSClasses []string
 }

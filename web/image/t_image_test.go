@@ -1,4 +1,4 @@
-package breadcumb
+package image
 
 import (
 	"bulma/cachetemplates"
@@ -13,7 +13,7 @@ import (
 
 const token = "xxx"
 
-func TestBreadcumbFullPage(t *testing.T) {
+func TestImageFullPage(t *testing.T) {
 	cache, errNew := cachetemplates.NewCacher("../../templates")
 	require.Nil(t, errNew)
 
@@ -22,16 +22,15 @@ func TestBreadcumbFullPage(t *testing.T) {
 	})
 	require.Nil(t, errNew)
 
-	// Breadcumb Component
-	bread := NewCo("Vegan Burger", cache, Content{
-		ActiveItem: "Vegan Burger",
-		Categories: []string{"Home", "Categ A", token},
+	// Image Component
+	img := NewImageRounded("Round Image", cache, Content{
+		ImageSrc: "../../public/pexels_1.jpg",
 	})
 
 	// bringing now the Body
 	body := body.NewCo(cache)
 
-	require.Nil(t, web.RenderComponentTo(bread, body, cache))
+	require.Nil(t, web.RenderComponentTo(img, body, cache))
 
 	page.AppendToBody(body.Markdown...)
 	page.RenderTo(os.Stdout)
