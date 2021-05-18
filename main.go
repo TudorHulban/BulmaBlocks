@@ -60,7 +60,7 @@ func prepareContent() (cachetemplates.HTML, error) {
 	})
 
 	img := image.NewImageRounded("Round Image", cache, image.Content{
-		ImageSrc: "./public/pexels_1.jpg",
+		ImageSrc: "pexels_1.jpg",
 		ImageAlt: "rounded pexel image",
 	})
 
