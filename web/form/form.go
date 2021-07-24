@@ -55,7 +55,7 @@ func NewCo(i string, cat []string) *Breadcumb {
 	}
 }
 
-func (c *Breadcumb) GetTemplateName() string {
+func (c *Form) GetTemplateName() string {
 	return c.templateName
 }
 
