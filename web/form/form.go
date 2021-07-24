@@ -38,7 +38,7 @@ type Form struct {
 	Categories []string
 }
 
-var _ web.IWeb = (*Breadcumb)(nil)
+var _ web.IRenderer = (*Form)(nil)
 
 var (
 	fieldTemplatePath   = "form_field_simple.gohtml"
@@ -60,8 +60,7 @@ func (c *Breadcumb) GetTemplateName() string {
 }
 
 func generateField(field FormField) (string, error) {
-	errValid := validateFieldType(field.Type)
-	if errValid != nil {
+	if validateFieldType(field.Type) != nil {
 		return "", errors.WithMessage(errValid, "form generation failed due to field validation")
 	}
 
